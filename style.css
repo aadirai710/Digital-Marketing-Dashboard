@@ -1,0 +1,616 @@
+/* =========================================================
+   Digital Marketing Analytics Dashboard - Stylesheet
+   ---------------------------------------------------------
+   1. Theme variables (dark / light)
+   2. Base
+   3. Header & buttons
+   4. Page head, tabs, segmented controls
+   5. Cards & KPI grid
+   6. Chart & channel health
+   7. Campaign table
+   8. Footer
+   9. Responsive
+   ========================================================= */
+
+
+/* ---------- 1. Theme variables ---------- */
+
+:root,
+[data-theme="dark"] {
+  --bg: #090a0f;
+  --surface: #0f1117;
+  --surface-2: #151822;
+  --border: #1f2230;
+  --border-strong: #2c3040;
+  --text: #f4f4f5;
+  --text-muted: #a1a1aa;
+  --text-faint: #71717a;
+
+  --primary: #2563eb;
+  --primary-text: #60a5fa;
+  --primary-soft: rgba(37, 99, 235, 0.14);
+  --success: #34d399;
+  --success-soft: rgba(16, 185, 129, 0.14);
+  --purple: #c084fc;
+  --purple-soft: rgba(168, 85, 247, 0.14);
+  --amber: #fbbf24;
+
+  --shadow: 0 1px 2px rgba(0, 0, 0, 0.4);
+}
+
+[data-theme="light"] {
+  --bg: #f8fafc;
+  --surface: #ffffff;
+  --surface-2: #f1f5f9;
+  --border: #e2e8f0;
+  --border-strong: #cbd5e1;
+  --text: #0f172a;
+  --text-muted: #475569;
+  --text-faint: #94a3b8;
+
+  --primary-text: #1d4ed8;
+  --primary-soft: #eff6ff;
+  --success: #047857;
+  --success-soft: #ecfdf5;
+  --purple: #7e22ce;
+  --purple-soft: #faf5ff;
+  --amber: #b45309;
+
+  --shadow: 0 1px 3px rgba(15, 23, 42, 0.06);
+}
+
+
+/* ---------- 2. Base ---------- */
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: "Plus Jakarta Sans", "Segoe UI", sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  font-size: 14px;
+  line-height: 1.55;
+  letter-spacing: 0.01em;
+  word-spacing: 0.05em;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  transition: background 0.2s, color 0.2s;
+}
+
+h1, h2 {
+  font-weight: 700;
+  letter-spacing: 0.01em;
+}
+
+h1 { font-size: 22px; }
+h2 { font-size: 15px; font-weight: 600; }
+
+button {
+  font-family: inherit;
+  cursor: pointer;
+}
+
+.muted  { color: var(--text-muted); }
+.faint  { color: var(--text-faint); }
+.small  { font-size: 12px; }
+.mono   { font-family: "JetBrains Mono", Consolas, monospace; }
+.right  { text-align: right; }
+
+.icon {
+  width: 16px;
+  height: 16px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  flex-shrink: 0;
+}
+
+.icon-blue { color: var(--primary); }
+
+
+/* ---------- 3. Header & buttons ---------- */
+
+.topbar {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  height: 64px;
+  padding: 0 32px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.brand-logo {
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  background: var(--primary);
+  color: #fff;
+  display: grid;
+  place-items: center;
+}
+
+.brand-title {
+  font-weight: 700;
+  font-size: 16px;
+}
+
+.toolbar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  background: var(--surface-2);
+  color: var(--text-muted);
+  font-size: 12px;
+  font-weight: 600;
+  transition: background 0.15s, color 0.15s;
+}
+
+.btn:hover {
+  color: var(--text);
+  border-color: var(--border-strong);
+}
+
+.btn-outline {
+  padding: 7px 12px;
+  color: var(--text);
+}
+
+.btn-label { font-size: 11px; }
+
+#themeToggle .icon-sun { color: var(--amber); }
+
+/* Show the right icon for the current theme / fullscreen state */
+[data-theme="dark"]  .icon-moon,
+[data-theme="light"] .icon-sun,
+.icon-shrink,
+.is-fullscreen .icon-expand {
+  display: none;
+}
+
+.is-fullscreen .icon-shrink { display: block; }
+
+.spin .icon { animation: spin 0.6s linear; }
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+
+/* ---------- 4. Page head, tabs, segmented ---------- */
+
+.container {
+  flex: 1;
+  width: 100%;
+  padding: 24px 32px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.page-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.page-head p { margin-top: 4px; }
+
+.segmented {
+  display: inline-flex;
+  gap: 4px;
+  padding: 4px;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  background: var(--surface);
+}
+
+.segmented button {
+  border: none;
+  background: transparent;
+  color: var(--text-muted);
+  padding: 6px 12px;
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: 500;
+}
+
+.segmented button:hover { color: var(--text); }
+
+.segmented button.active {
+  background: var(--surface-2);
+  color: var(--text);
+  box-shadow: var(--shadow);
+}
+
+.tabs {
+  display: flex;
+  gap: 6px;
+  overflow-x: auto;
+  padding-bottom: 6px;
+  border-bottom: 1px solid var(--border);
+}
+
+.tab {
+  white-space: nowrap;
+  padding: 8px 14px;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  background: var(--surface);
+  color: var(--text-muted);
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.tab:hover { color: var(--text); }
+
+.tab.active {
+  background: var(--primary);
+  border-color: var(--primary);
+  color: #fff;
+}
+
+
+/* ---------- 5. Cards & KPI grid ---------- */
+
+.card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 20px 24px;
+  box-shadow: var(--shadow);
+}
+
+.card-head {
+  padding-bottom: 16px;
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+}
+
+.card-head p { margin-top: 2px; }
+
+.card-head-wrap { flex-wrap: wrap; }
+
+.kpi-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+}
+
+.kpi {
+  padding: 20px;
+  transition: transform 0.15s, border-color 0.15s;
+}
+
+.kpi:hover {
+  transform: translateY(-2px);
+  border-color: var(--border-strong);
+}
+
+.kpi-title {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text-muted);
+}
+
+.kpi-row {
+  margin-top: 14px;
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.kpi-value {
+  font-family: "JetBrains Mono", Consolas, monospace;
+  font-size: 26px;
+  font-weight: 600;
+}
+
+.kpi-foot {
+  margin-top: 14px;
+  padding-top: 12px;
+  border-top: 1px solid var(--border);
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+  font-size: 11px;
+  color: var(--text-muted);
+}
+
+.kpi-foot span:first-child {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.badge {
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: 999px;
+  font-size: 11px;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.badge-good    { background: var(--success-soft); color: var(--success); }
+.badge-neutral { background: var(--surface-2); color: var(--text-muted); }
+
+
+/* ---------- 6. Chart & channel health ---------- */
+
+.charts-row {
+  display: grid;
+  grid-template-columns: 3fr 1fr;
+  gap: 24px;
+}
+
+.chart-card {
+  display: flex;
+  flex-direction: column;
+}
+
+.chart-wrap {
+  position: relative;
+  flex: 1;
+  min-height: 340px;
+  margin-top: 16px;
+}
+
+.chart-error {
+  height: 100%;
+  display: grid;
+  place-items: center;
+  color: var(--text-muted);
+  font-size: 13px;
+}
+
+.channel-card {
+  display: flex;
+  flex-direction: column;
+}
+
+.channel-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 14px 0;
+  flex: 1;
+}
+
+.channel {
+  padding: 12px;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  background: var(--surface-2);
+  cursor: pointer;
+  transition: border-color 0.15s;
+}
+
+.channel:hover { border-color: var(--border-strong); }
+
+.channel.active {
+  border-color: var(--primary);
+  background: var(--primary-soft);
+}
+
+.channel-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.channel.active .channel-name { color: var(--primary-text); }
+
+.channel-metrics {
+  margin-top: 8px;
+  padding: 6px 0;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  text-align: center;
+  border-radius: 6px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+}
+
+.channel-metrics .label {
+  font-size: 10px;
+  color: var(--text-faint);
+}
+
+.channel-metrics .value {
+  font-family: "JetBrains Mono", Consolas, monospace;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.channel-metrics .value.good { color: var(--success); }
+
+.channel-note {
+  margin-top: 6px;
+  font-size: 11px;
+  color: var(--text-muted);
+}
+
+.card-foot {
+  padding-top: 12px;
+  border-top: 1px solid var(--border);
+}
+
+.link-btn {
+  border: none;
+  background: none;
+  color: var(--text-muted);
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.link-btn:hover { color: var(--text); text-decoration: underline; }
+
+
+/* ---------- 7. Campaign table ---------- */
+
+.count-pill {
+  margin-left: 6px;
+  padding: 2px 8px;
+  border-radius: 6px;
+  background: var(--surface-2);
+  color: var(--text-muted);
+  font-family: "JetBrains Mono", Consolas, monospace;
+  font-size: 11px;
+  font-weight: 500;
+}
+
+.table-wrap {
+  overflow-x: auto;
+  margin-top: 8px;
+}
+
+.data-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 12px;
+}
+
+.data-table th {
+  text-align: left;
+  padding: 12px 10px;
+  color: var(--text-muted);
+  font-weight: 600;
+  border-bottom: 1px solid var(--border);
+  white-space: nowrap;
+}
+
+.data-table td {
+  padding: 14px 10px;
+  border-bottom: 1px solid var(--border);
+  white-space: nowrap;
+  vertical-align: middle;
+}
+
+.data-table tbody tr:hover { background: var(--surface-2); }
+
+.data-table tbody tr:last-child td { border-bottom: none; }
+
+.campaign-name {
+  margin-top: 4px;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.campaign-id {
+  margin-left: 6px;
+  font-size: 10px;
+  color: var(--text-faint);
+}
+
+.pill {
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-size: 11px;
+  font-weight: 600;
+}
+
+.pill-meta   { background: var(--primary-soft); color: var(--primary-text); }
+.pill-google { background: var(--success-soft); color: var(--success); }
+.pill-email  { background: var(--purple-soft);  color: var(--purple); }
+
+.cost-chip {
+  padding: 2px 8px;
+  border-radius: 4px;
+  border: 1px solid var(--border);
+  background: var(--surface-2);
+}
+
+.efficiency {
+  color: var(--success);
+  font-weight: 700;
+}
+
+.status {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 2px 10px;
+  border-radius: 999px;
+  font-size: 11px;
+  font-weight: 600;
+}
+
+.status-active     { background: var(--success-soft); color: var(--success); }
+.status-optimizing { background: var(--primary-soft); color: var(--primary-text); }
+.status-paused,
+.status-completed  { background: var(--surface-2);    color: var(--text-muted); }
+
+.status-active::before {
+  content: "";
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: currentColor;
+}
+
+.empty-row {
+  text-align: center;
+  color: var(--text-muted);
+  padding: 28px 0;
+}
+
+
+/* ---------- 8. Footer ---------- */
+
+.footer {
+  padding: 20px;
+  text-align: center;
+  font-size: 12px;
+  color: var(--text-faint);
+  border-top: 1px solid var(--border);
+  background: var(--surface);
+}
+
+
+/* ---------- 9. Responsive ---------- */
+
+@media (max-width: 1100px) {
+  .kpi-grid   { grid-template-columns: repeat(2, 1fr); }
+  .charts-row { grid-template-columns: 1fr; }
+}
+
+@media (max-width: 640px) {
+  .topbar, .container { padding-left: 16px; padding-right: 16px; }
+  .brand-title, .btn-label { display: none; }
+  .kpi-grid { grid-template-columns: 1fr; }
+}
